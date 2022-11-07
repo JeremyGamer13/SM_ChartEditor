@@ -34,7 +34,9 @@
         <div class="footer">
             <img src="assets/images/LJ-LEPHEMSTARcropped.png" draggable="false" style="height:100%">
         </div>
+        <script src="enums.js"></script>
         <script src="parser.js"></script>
+        <script src="songEditor.js"></script>
         <script>
             window.onclick = () => {
                 window.onclick = null
@@ -169,7 +171,7 @@
                                     console.log("file parsed and packaged correctly, continue")
                                     chooseSongType().then(songType => {
                                         console.log(songType, "chosen")
-                                        const songEditor = new SongEditor(ChartObject, document.body)
+                                        const songEditor = new SongEditor(ChartObject, songType, document.body)
                                     })
                                 }).catch(errorEncountered)
                             }).catch(errorEncountered)
