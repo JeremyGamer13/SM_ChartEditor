@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>melodii chart editor - v1.0</title>
+        <style>
+            body {
+                background-color: rgb(82, 39, 72);
+                overflow: hidden;
+            }
+            .footer {
+                position: absolute;
+                bottom: 0px;
+                height: 15%;
+                z-index: 999;
+            }
+            .backgroundDoodles {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                user-select: none;
+                opacity: 0.1;
+                z-index: -999;
+            }
+            img {
+                user-select: none;
+            }
+        </style>
+    </head>
+    <body>
+        <img src="assets/images/melodii_pressAnything.png" id="_paImg" draggable="false" style="position:absolute;left:12.5%;top:12.5%;width:75%;height:75%;">
+        <img src="assets/images/meldoodles.png" draggable="false" class="backgroundDoodles">
+        <div class="footer">
+            <img src="assets/images/LJ-LEPHEMSTARcropped.png" draggable="false" style="height:100%">
+        </div>
+        <script src="parser.js"></script>
+        <script>
+            window.onclick = () => {
+                window.onclick = null
+                beginSiteActions(document.getElementById("_paImg"))
+            }
+            function createElement(tag, parent, cb) {
+                const e = document.createElement(tag)
+                if (parent) parent.append(e)
+                if (cb) cb(e)
+                return e
+            }
+            function errorEncountered(err) {
+                console.error(err)
+                try {
+                    const huh = new Audio("assets/audio/huh.wav")
+                    huh.play()
+                    huh.onended = () => huh.remove()
+                } catch {
+                    console.warn("error sound failed lol")
+                }
+            }
+            function playMenuSound() {
+                try {
+                    const mss = new Audio("assets/audio/menu_switch.ogg")
+                    mss.play()
+                    mss.onended = () => mss.remove()
+                } catch {
+                    errorEncountered("Audio was not able to play correctly. Please try to find some way to get it to work.")
+                }
+            }
+            function askForFile() {
+                return new Promise((resolve, reject) => {
+                    const filePicker = createElement("input", document.body, (e) => {
+                        e.style.display = "none"
+                        e.type = "file"
+                    })
+                    filePicker.click()
+                    filePicker.onchange = () => {
+                        filePicker.files[0].text().then(resolve).catch(reject)
+                    }
+                })
+            }
+            function chooseSongType() {
+                return new Promise((resolve, reject) => {
+                    const songTypes = []
+                    createElement("img", document.body, (e) => {
+                        songTypes.push(e)
+                        e.src = "assets/images/songType_cream.png"
+                        e.alt = "Cream Cheese Icing"
+                        e.style.width = "256px"
+                        e.onclick = () => {
+                            resolve("cream")
+                            playMenuSound()
+                            songTypes.forEach(st => st.remove())
+                        }
+                    })
+                    createElement("img", document.body, (e) => {
+                        songTypes.push(e)
+                        e.src = "assets/images/songType_nami.png"
+                        e.alt = "Nami.wav"
+                        e.style.width = "256px"
+                        e.onclick = () => {
+                            resolve("nami")
+                            playMenuSound()
+                            songTypes.forEach(st => st.remove())
+                        }
+                    })
+                    createElement("img", document.body, (e) => {
+                        songTypes.push(e)
+                        e.src = "assets/images/songType_stir.png"
+                        e.alt = "Stir & Mix"
+                        e.style.width = "256px"
+                        e.onclick = () => {
+                            resolve("stir")
+                            playMenuSound()
+                            songTypes.forEach(st => st.remove())
+                        }
+                    })
+                    createElement("img", document.body, (e) => {
+                        songTypes.push(e)
+                        e.src = "assets/images/songType_grease.png"
+                        e.alt = "Grease Poppin'"
+                        e.style.width = "256px"
+                        e.onclick = () => {
+                            resolve("grease")
+                            playMenuSound()
+                            songTypes.forEach(st => st.remove())
+                        }
+                    })
+                    createElement("img", document.body, (e) => {
+                        songTypes.push(e)
+                        e.src = "assets/images/melodii_chooseSongType.png"
+                        e.style.position = "absolute"
+                        e.draggable = false
+                        e.style.zIndex = -10
+                        e.style.left = "0px"
+                        e.style.top = "0px"
+                        e.style.width = "100%"
+                        e.style.height = "100%"
+                        e.onclick = () => {
+                            resolve("grease")
+                            playMenuSound()
+                            songTypes.forEach(st => st.remove())
+                        }
+                    })
+                })
+            }
+            function beginSiteActions(e) {
+                e.remove()
+                playMenuSound()
+                createElement("button", document.body, (button) => {
+                    button.style.position = "absolute"
+                    button.style.left = "12.5%"
+                    button.style.top = "12.5%"
+                    button.style.width = "75%"
+                    button.style.height = "75%"
+                    button.style.backgroundColor = "transparent"
+                    button.style.outlineWidth = "0px"
+                    button.style.borderWidth = "0px"
+                    createElement("img", button, (img) => {
+                        img.src = "assets/images/selectAFile.png"
+                        img.draggable = false
+                        img.style.width = "100%"
+                        img.style.height = "100%"
+                    })
+                    button.onclick = () => {
+                        playMenuSound()
+                        askForFile().then(fileContent => {
+                            button.remove()
+                            MelodiiParser.parse(fileContent).then(ChartObject => {
+                                MelodiiParser.package(ChartObject).then(() => {
+                                    console.log("file parsed and packaged correctly, continue")
+                                    chooseSongType().then(songType => {
+                                        console.log(songType, "chosen")
+                                        const songEditor = new SongEditor(ChartObject, document.body)
+                                    })
+                                }).catch(errorEncountered)
+                            }).catch(errorEncountered)
+                        }).catch(errorEncountered)
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>
