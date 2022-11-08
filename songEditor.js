@@ -15,8 +15,24 @@ class SongEditor {
                 div.style.position = "absolute"
                 div.style.left = "0px"
                 div.style.top = "0px"
-                div.style.width = "0px"
-                div.style.height = "0px"
+                div.style.width = "100%"
+                div.style.height = "100%"
+            })
+            this.element.lineDisplay = createElement("div", this.element, display => {
+                display.style.position = "absolute"
+                display.style.left = "0px"
+                display.style.top = "0px"
+                display.style.width = "640px"
+                display.style.height = "200px"
+                display.style.backgroundColor = "dodgerblue"
+            })
+            this.element.lineDisplay.divider = createElement("div", this.element.lineDisplay, divider => {
+                divider.style.position = "absolute"
+                divider.style.left = "0px"
+                divider.style.top = "99px"
+                divider.style.width = "100%"
+                divider.style.height = "2px"
+                divider.style.backgroundColor = "white"
             })
         }).catch((err) => {
             throw new Error("Song Editor cannot use an unpackagable chart.\n" + err)
