@@ -100,7 +100,7 @@ class SongEditor {
                 img.draggable = false
                 img.style.position = "absolute"
                 img.style.left = "8px"
-                img.style.top = "32px"
+                img.style.top = "24px"
                 img.style.width = "48px"
                 img.style.height = "48px"
             })
@@ -309,10 +309,45 @@ class SongEditor {
                 })
                 MelodiiParser.package(ChartObject).then(chartText => {
                     console.log("Exported chart!")
-                    console.log(chartText)
+                    console.log([chartText])
+                    const blob = new Blob([chartText])
+                    // if (window.showSaveFilePicker) {
+                    // window.showSaveFilePicker({
+                    // suggestedName: "chart.smc",
+                    // types: [
+                    // {
+                    // description: "Scratchin Melodii Chart",
+                    // accept: { "application/smc": [".smc"] },
+                    // }
+                    // ]
+                    // }).then(fileHandle => {
+                    // fileHandle.createWritable().then(fileStream => {
+                    // fileStream.write(blob).then(fileStream => {
+                    // fileStream.close()
+                    // })
+                    // })
+                    // })
+                    // return
+                    // }
+                    const a = document.createElement("a")
+                    a.style = "display: none"
+                    document.body.appendChild(a)
+                    const url = window.URL.createObjectURL(blob)
+                    a.href = url
+                    a.download = "chart.smc"
+                    a.click()
+                    window.URL.revokeObjectURL(url)
+                    document.body.removeChild(a)
                 }).catch(err => {
                     if (this.errorFunction) this.errorFunction(err)
                 })
+            }
+            createNewLine(this.element.buttonArea)
+            createNewLine(this.element.buttonArea)
+            createNewLine(this.element.buttonArea)
+            createNewLine(this.element.buttonArea)
+            createDecoratedButton("User Manual", this.element.buttonArea).onclick = () => {
+                if (this.errorFunction) this.errorFunction("Manual does not exist yet")
             }
             this.audioPlayer.ontimeupdate = () => this.renderLineNotes(this.currentLine)
             window.onkeydown = (e) => {
@@ -335,6 +370,7 @@ class SongEditor {
                 this.lineData.lines[this.currentLine - 1].push({ key: targetNote, time: this.audioPlayer.currentTime * 44100 })
                 this.renderLineNotes(this.currentLine)
             }
+            this.renderLineNotes(this.currentLine)
         }).catch((err) => {
             throw new Error("Song Editor cannot use an unpackagable chart.\n" + err)
         })
