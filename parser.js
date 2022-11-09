@@ -83,52 +83,52 @@ class MelodiiParser {
             chartTextLines.push("end;")
             chartTextLines.push("ButtonA:")
             for (let i = 0; i < object.buttons.a.length; i++) {
-                chartTextLines.push("\t" + object.buttons.a[i])
+                chartTextLines.push("\t" + Math.round(Number(object.buttons.a[i])))
             }
             chartTextLines.push("end;")
             chartTextLines.push("ButtonB:")
             for (let i = 0; i < object.buttons.b.length; i++) {
-                chartTextLines.push("\t" + object.buttons.b[i])
+                chartTextLines.push("\t" + Math.round(Number(object.buttons.b[i])))
             }
             chartTextLines.push("end;")
             chartTextLines.push("ButtonX:")
             for (let i = 0; i < object.buttons.x.length; i++) {
-                chartTextLines.push("\t" + object.buttons.x[i])
+                chartTextLines.push("\t" + Math.round(Number(object.buttons.x[i])))
             }
             chartTextLines.push("end;")
             chartTextLines.push("ButtonY:")
             for (let i = 0; i < object.buttons.y.length; i++) {
-                chartTextLines.push("\t" + object.buttons.y[i])
+                chartTextLines.push("\t" + Math.round(Number(object.buttons.y[i])))
             }
             chartTextLines.push("end;")
             chartTextLines.push("ButtonL:")
             for (let i = 0; i < object.buttons.l.length; i++) {
-                chartTextLines.push("\t" + object.buttons.l[i])
+                chartTextLines.push("\t" + Math.round(Number(object.buttons.l[i])))
             }
             chartTextLines.push("end;")
             chartTextLines.push("ButtonR:")
             for (let i = 0; i < object.buttons.r.length; i++) {
-                chartTextLines.push("\t" + object.buttons.r[i])
+                chartTextLines.push("\t" + Math.round(Number(object.buttons.r[i])))
             }
             chartTextLines.push("end;")
             chartTextLines.push("ScratchUp:")
             for (let i = 0; i < object.buttons.up.length; i++) {
-                chartTextLines.push("\t" + object.buttons.up[i])
+                chartTextLines.push("\t" + Math.round(Number(object.buttons.up[i])))
             }
             chartTextLines.push("end;")
             chartTextLines.push("ScratchDown:")
             for (let i = 0; i < object.buttons.down.length; i++) {
-                chartTextLines.push("\t" + object.buttons.down[i])
+                chartTextLines.push("\t" + Math.round(Number(object.buttons.down[i])))
             }
             chartTextLines.push("end;")
             chartTextLines.push("ScratchLeft:")
             for (let i = 0; i < object.buttons.left.length; i++) {
-                chartTextLines.push("\t" + object.buttons.left[i])
+                chartTextLines.push("\t" + Math.round(Number(object.buttons.left[i])))
             }
             chartTextLines.push("end;")
             chartTextLines.push("ScratchRight:")
             for (let i = 0; i < object.buttons.right.length; i++) {
-                chartTextLines.push("\t" + object.buttons.right[i])
+                chartTextLines.push("\t" + Math.round(Number(object.buttons.right[i])))
             }
             chartTextLines.push("end;")
             resolve(chartTextLines.join("\n"))

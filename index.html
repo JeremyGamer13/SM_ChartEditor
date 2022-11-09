@@ -172,6 +172,9 @@
                                     chooseSongType().then(songType => {
                                         console.log(songType, "chosen")
                                         const songEditor = new SongEditor(ChartObject, songType, document.body)
+                                        songEditor.menuSoundFunction = playMenuSound
+                                        songEditor.errorFunction = errorEncountered
+                                        window.currentSongEditor = songEditor
                                     })
                                 }).catch(errorEncountered)
                             }).catch(errorEncountered)
