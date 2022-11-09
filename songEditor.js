@@ -248,6 +248,12 @@ class SongEditor {
                 if (this.menuSoundFunction) this.menuSoundFunction()
             }
             createNewLine(this.element.buttonArea)
+            createDecoratedButton("Set song URL", this.element.buttonArea).onclick = () => {
+                const time = this.audioPlayer.currentTime
+                this.audioPlayer.src = prompt("Set song URL", this.audioPlayer.src)
+                this.audioPlayer.currentTime = time
+            }
+            createNewLine(this.element.buttonArea)
             createNewLine(this.element.buttonArea)
             createDecoratedButton("0.01 Seconds", this.element.buttonArea)
             createDecoratedButton("<", this.element.buttonArea).onclick = () => { this.audioPlayer.currentTime -= 0.01; this.renderLineNotes(this.currentLine) }
@@ -348,6 +354,7 @@ class SongEditor {
             createNewLine(this.element.buttonArea)
             createDecoratedButton("User Manual", this.element.buttonArea).onclick = () => {
                 if (this.errorFunction) this.errorFunction("Manual does not exist yet")
+                // window.open("manual.html", "_blank")
             }
             this.audioPlayer.ontimeupdate = () => this.renderLineNotes(this.currentLine)
             window.onkeydown = (e) => {
